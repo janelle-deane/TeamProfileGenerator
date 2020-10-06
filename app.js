@@ -1,3 +1,4 @@
+// Requirements
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -10,6 +11,11 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+// Declare variables
+let employeeArray=[];
+
+// Call Questions
+addEmployeeInfo()
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -42,8 +48,11 @@ function addEmployeeInfo() {
         )
         .then(function (response) {
             if (response.roleAns === "Manager") {
-                addManager()
-                // push info into employee array?
+                // console.log(response)
+                // push info into employee array or a manager Array?
+                // employeeArray.push(new Manager(response));
+            //    ask Manager questions 
+                addManager(response)
             } else if (response.roleAns === "Engineer") {
                 addEngineer()
             } else {
@@ -52,7 +61,7 @@ function addEmployeeInfo() {
         })
 }
 
-function addManager() {
+function addManager(response) {
     inquirer
         .prompt(
             [
@@ -68,8 +77,9 @@ function addManager() {
                     name: "anotherEmployeeAns",
                 }
             ])
-        .then(function (response) {
-            employeeArray.push(new Manager(response.officeAns));
+        .then(function (responseManager) {
+            employeeArray.push(new Manager(response.nameAns, response.idAns, response.emailAns, responseManager.officeAns));
+            console.log(employeeArray)
             // Should I add a manager array or general employee array? 
             if (response.anotherEmployeeAns === "Yes") {
                 addEmployeeInfo();
@@ -97,7 +107,7 @@ function addManager() {
                         }
                     ])
         .then(function (response) {
-            employeeArray.push(new Engineer(response.github));
+            // employeeArray.push(new Engineer(response.github));
             // Should I add a manager array or general employee array or put it in an url? 
             if (response.anotherEmployeeAns === "Yes") {
                 addEmployeeInfo();
@@ -125,7 +135,7 @@ function addIntern() {
                 }
             ])
         .then(function (response) {
-            employeeArray.push(new Intern(response.schoolAns));
+            // employeeArray.push(new Intern(response.schoolAns));
             // Should I add a manager array or general employee array? 
             if (response.anotherEmployeeAns === "Yes") {
                 addEmployeeInfo();

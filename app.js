@@ -48,15 +48,14 @@ function addEmployeeInfo() {
         )
         .then(function (response) {
             if (response.roleAns === "Manager") {
-                // console.log(response)
-                // push info into employee array or a manager Array?
-                // employeeArray.push(new Manager(response));
             //    ask Manager questions 
                 addManager(response)
             } else if (response.roleAns === "Engineer") {
-                addEngineer()
+                //    ask Engineer questions 
+                addEngineer(response)
             } else {
-                addIntern()
+                //    ask Intern questions 
+                addIntern(response)
             }
         })
 }
@@ -80,17 +79,18 @@ function addManager(response) {
         .then(function (responseManager) {
             employeeArray.push(new Manager(response.nameAns, response.idAns, response.emailAns, responseManager.officeAns));
             console.log(employeeArray)
-            // Should I add a manager array or general employee array? 
-            if (response.anotherEmployeeAns === "Yes") {
+            if (responseManager.anotherEmployeeAns === "Yes") {
+                console.log("you said yes")
                 addEmployeeInfo();
             } else {
-                return
-                // render HTML
+                var renderedPage=render(employeeArray) 
+                return renderedPage
+                 
             }
         }); 
     };
     
- function addEngineer() {
+ function addEngineer(response) {
     inquirer
         .prompt(
             [
@@ -106,19 +106,19 @@ function addManager(response) {
                     name: "anotherEmployeeAns",
                         }
                     ])
-        .then(function (response) {
-            // employeeArray.push(new Engineer(response.github));
-            // Should I add a manager array or general employee array or put it in an url? 
-            if (response.anotherEmployeeAns === "Yes") {
+        .then(function (responseEngineer) {
+            employeeArray.push(new Engineer(response.nameAns, response.idAns, response.emailAns, responseEngineer.githubAns));
+            console.log(employeeArray)
+            if (responseEngineer.anotherEmployeeAns === "Yes") {
                 addEmployeeInfo();
             } else {
-             return
-             // render HTML
+                var renderedPage=render(employeeArray) 
+                return renderedPage
             }
         })
     };
 
-function addIntern() {
+function addIntern(response) {
     inquirer
         .prompt(
             [
@@ -134,15 +134,21 @@ function addIntern() {
                     name: "anotherEmployeeAns",
                 }
             ])
-        .then(function (response) {
-            // employeeArray.push(new Intern(response.schoolAns));
-            // Should I add a manager array or general employee array? 
-            if (response.anotherEmployeeAns === "Yes") {
+        .then(function (responseIntern) {
+            employeeArray.push(new Intern(response.nameAns, response.idAns, response.emailAns, responseIntern.schoolAns));
+            console.log(employeeArray)
+            if (responseIntern.anotherEmployeeAns === "Yes") {
                 addEmployeeInfo();
             } else {
-                return
-                // render HTML
+                var renderedPage=render(employeeArray) 
+                return renderedPage
             }
+        }).then (function(html){
+            fs.writeFile(`team.html`, html, "utf8", function(err){
+                if(err){
+                    throw err
+                }
+            })
         })
     };
 

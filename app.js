@@ -13,6 +13,157 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+function addEmployeeInfo() {
+    inquirer
+        .prompt(
+            [
+                {
+                    type: "input",
+                    message: "What is their name?",
+                    name: "nameAns",
+                },
+                {
+                    type: "input",
+                    message: "What is their Id?",
+                    name: "idAns",
+                },
+                {
+                    type: "input",
+                    message: "What is their email?",
+                    name: "emailAns",
+                },
+                {
+                    type: "list",
+                    message: "What is their role?",
+                    choices: ['Manager', 'Engineer', 'Intern'],
+                    name: "roleAns"
+                }
+            ]
+        )
+        .then(function (response) {
+            if (response.roleAns === "Manager") {
+                addManager()
+                // push info into employee array?
+            } else if (response.roleAns === "Engineer") {
+                addEngineer()
+            } else {
+                addIntern()
+            }
+        })
+}
+
+function addManager() {
+    inquirer
+        .prompt(
+            [
+                {
+                    type: "input",
+                    message: "What is their office number?",
+                    name: "officeAns"
+                },
+                {
+                    type: "list",
+                    message: "Would you like to enter another Employee?",
+                    choices: ["Yes", "No"],
+                    name: "anotherEmployeeAns",
+                }
+            ])
+        .then(function (response) {
+            employeeArray.push(new Manager(response.officeAns));
+            // Should I add a manager array or general employee array? 
+            if (response.anotherEmployeeAns === "Yes") {
+                addEmployeeInfo();
+            } else {
+                return
+                // render HTML
+            }
+        }); 
+}
+
+function addManager() {
+    inquirer
+        .prompt(
+            [
+                {
+                    type: "input",
+                    message: "What is their office number?",
+                    name: "officeAns"
+                },
+                {
+                    type: "list",
+                    message: "Would you like to enter another Employee?",
+                    choices: ["Yes", "No"],
+                    name: "anotherEmployeeAns",
+                }
+            ])
+        .then(function (response) {
+            employeeArray.push(new Manager(response.officeAns));
+            // Should I add a manager array or general employee array? 
+            if (response.anotherEmployeeAns === "Yes") {
+                addEmployeeInfo();
+            } else {
+                return
+                // render HTML
+            }
+        }); 
+    };
+    
+ function addEngineer() {
+    inquirer
+        .prompt(
+            [
+                {
+                    type: "input",
+                    message: "What is their GitHub?",
+                    name: "githubAns"
+                },
+                {
+                    type: "list",
+                    message: "Would you like to enter another Employee?",
+                    choices: ["Yes", "No"],
+                    name: "anotherEmployeeAns",
+                        }
+                    ])
+        .then(function (response) {
+            employeeArray.push(new Manager(response.github));
+            // Should I add a manager array or general employee array or put it in an url? 
+            if (response.anotherEmployeeAns === "Yes") {
+                addEmployeeInfo();
+            } else {
+             return
+             // render HTML
+            }
+        })
+    };
+
+function addIntern() {
+    inquirer
+        .prompt(
+            [
+                {
+                    type: "input",
+                    message: "What is their school?",
+                    name: "schoolAns"
+                },
+                {
+                    type: "list",
+                    message: "Would you like to enter another Employee?",
+                    choices: ["Yes", "No"],
+                    name: "anotherEmployeeAns",
+                }
+            ])
+        .then(function (response) {
+            employeeArray.push(new Manager(response.schoolAns));
+            // Should I add a manager array or general employee array? 
+            if (response.anotherEmployeeAns === "Yes") {
+                addEmployeeInfo();
+            } else {
+                return
+                // render HTML
+            }
+        })
+    };
+
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will

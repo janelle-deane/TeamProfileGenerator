@@ -78,34 +78,6 @@ function addManager() {
                 // render HTML
             }
         }); 
-}
-
-function addManager() {
-    inquirer
-        .prompt(
-            [
-                {
-                    type: "input",
-                    message: "What is their office number?",
-                    name: "officeAns"
-                },
-                {
-                    type: "list",
-                    message: "Would you like to enter another Employee?",
-                    choices: ["Yes", "No"],
-                    name: "anotherEmployeeAns",
-                }
-            ])
-        .then(function (response) {
-            employeeArray.push(new Manager(response.officeAns));
-            // Should I add a manager array or general employee array? 
-            if (response.anotherEmployeeAns === "Yes") {
-                addEmployeeInfo();
-            } else {
-                return
-                // render HTML
-            }
-        }); 
     };
     
  function addEngineer() {
@@ -125,7 +97,7 @@ function addManager() {
                         }
                     ])
         .then(function (response) {
-            employeeArray.push(new Manager(response.github));
+            employeeArray.push(new Engineer(response.github));
             // Should I add a manager array or general employee array or put it in an url? 
             if (response.anotherEmployeeAns === "Yes") {
                 addEmployeeInfo();
@@ -153,7 +125,7 @@ function addIntern() {
                 }
             ])
         .then(function (response) {
-            employeeArray.push(new Manager(response.schoolAns));
+            employeeArray.push(new Intern(response.schoolAns));
             // Should I add a manager array or general employee array? 
             if (response.anotherEmployeeAns === "Yes") {
                 addEmployeeInfo();
